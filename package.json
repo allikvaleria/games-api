@@ -16,10 +16,13 @@
     "url": "https://github.com/allikvaleria/games-api/issues"
   },
   "homepage": "https://github.com/allikvaleria/games-api#readme",
-  "description": "",
   "dependencies": {
     "express": "^5.1.0",
     "swagger-ui-express": "^5.0.1",
     "yamljs": "^0.3.0"
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "description": ""
 }

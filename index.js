@@ -1,4 +1,4 @@
-const app = require('express')
+const express = require('express')
 const app = express()
 const port = 8080
 const swaggerUi = require('swagger-ui-express')
@@ -17,28 +17,30 @@ const games = [
     {id: 7, name: "Valorant", price: 0},
     {id: 8, name: "Forza Horizon 5", price: 59.99},
 ]
+
 app.get('/games', (req, res) => {
     res.send(games)
 })
-app.get('/game/:id', (req, res) => {
-
-    if (typeof games[req.params.id - 1] === 'undefined'){
-        return res.status(404).send({error: "Game not found"})
+app.get('/games/:id', (req, res) => {
+    if(typeof games[req.params.id - 1] === 'undefined') {
+        return res.status(404).send({
+            error: "Game not found"
+        })
     }
-
     res.send(games[req.params.id - 1])
 })
 
 app.post('/games', (req, res) => {
-    if (!req.body.name || !req.body.price){
-        return res.status(400).send({ error: 'One or all params are missin'})
+    if (!req.body.name || !req.body.price) {
+        return res.status(400).send({
+            error: 'One or all params are missing'
+        })
     }
     let game = {
-        id: games.lenght + 1,
+        id: games.length + 1,
         price: req.body.price,
         name: req.body.name
     }
-
     games.push(game)
 
     res.status(201)
@@ -47,13 +49,16 @@ app.post('/games', (req, res) => {
 })
 
 app.delete('/games/:id', (req, res) => {
-    if (typeof games[req.params.id - 1] === 'undefine') {
-        return res.status(404).send({error: "Game not found"})
+    if(typeof games[req.params.id - 1] === 'undefined') {
+        return res.status(404).send({
+            error: "Game not found"
+        })
     }
-
     games.splice(req.params.id - 1, 1)
 
-    res.status(204).send({error: "No content"})
+    res.status(204).send({
+        error: "No content"
+    })
 })
 
 app.use('/docs/', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
