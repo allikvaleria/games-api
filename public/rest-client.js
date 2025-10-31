@@ -13,11 +13,12 @@ const vue = Vue.createApp({
         this.games = await (await fetch('http://localhost:8080/games')).json();
     },
     methods: {
-        async getGame(id) {
-            this.gameInModal = await (await fetch(`http://localhost:8080/games/${id}`)).json();
-            let gameInfoModal = new bootstrap.Modal(document.getElementById('gameInfoModal'), {});
-            gameInfoModal.show();
-        },
+        getGame(id) {
+    this.gameInModal = this.games.find(g => g.id === id);
+    let gameInfoModal = new bootstrap.Modal(document.getElementById('gameInfoModal'));
+    gameInfoModal.show();
+},
+
         async addGame() {
             try {
                 const response = await fetch('http://localhost:8080/games', {
@@ -44,14 +45,20 @@ const vue = Vue.createApp({
             }
         },
         async deleteGame(id) {
-        fetch(`http://localhost:8080/games/${id}`, {
-            method: 'DELETE'
-        })
-        .then(() => {
-            this.games = this.games.filter(g => g.id !== id);
-        })
-        .catch(err => console.error(err));
+            try {
+                const res = await fetch(`http://localhost:8080/games/${id}`, {
+                    method: 'DELETE'
+                });
+                if (!res.ok) {
+                    const errorData = await res.json();
+                    alert(errorData.message);
+                    return;
+                }
+                this.games = this.games.filter(game => game.id !== id);
+            } 
+            catch (error) {
+                alert(error.message);
+            }
         }
-
     }
 }).mount('#app');
