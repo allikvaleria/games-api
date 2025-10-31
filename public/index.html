@@ -95,10 +95,12 @@
         <tr>
             <th>Name</th>
             <th>Price (€)</th>
+            <th>Controls</th>
         </tr>
         <tr v-for="game in games" :key="game.id">
             <td @click="getGame(game.id)">{{ game.name }}</td>
             <td>{{ game.price }}</td>
+            <td><button class="btn btn-danger btn-sm" @click="deleteGame(game.id)">Delete</button></td>
         </tr>
     </table>
 
@@ -127,6 +129,21 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="addgame">
+        <h3>Add New Game</h3>
+        <form @submit.prevent="addGame" class="form-horizontal">
+            <div class="form-group">
+                <label for="name" class="control-label">Name:</label>
+                <input type="text" v-model="newGame.name" class="form-control" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="price" class="control-label">Price (€):</label>
+                <input type="number" v-model="newGame.price" class="form-control" id="price" step="0.01" required>
+            </div>
+            <button type="submit" class="btn btn-danger">Add Game</button>
+        </form>
     </div>
 
 </div>

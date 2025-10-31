@@ -35,14 +35,23 @@ const vue = Vue.createApp({
                 }
 
                 const addedGame = await response.json();
-                this.games.push(addedGame); // добавляем в список игр
+                this.games.push(addedGame); 
 
-                // Очистка формы
                 this.newGame.name = '';
                 this.newGame.price = '';
             } catch (error) {
                 alert('Failed to add game: ' + error.message);
             }
+        },
+        async deleteGame(id) {
+        fetch(`http://localhost:8080/games/${id}`, {
+            method: 'DELETE'
+        })
+        .then(() => {
+            this.games = this.games.filter(g => g.id !== id);
+        })
+        .catch(err => console.error(err));
         }
+
     }
 }).mount('#app');
